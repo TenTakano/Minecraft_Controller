@@ -31,11 +31,11 @@ defmodule MinecraftControllerWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("revive.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("revive.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("revive.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("revive.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("revive.repo.query.idle_time", unit: {:native, :millisecond}),
+      summary("minecraft_controller.repo.query.total_time", unit: {:native, :millisecond}),
+      summary("minecraft_controller.repo.query.decode_time", unit: {:native, :millisecond}),
+      summary("minecraft_controller.repo.query.query_time", unit: {:native, :millisecond}),
+      summary("minecraft_controller.repo.query.queue_time", unit: {:native, :millisecond}),
+      summary("minecraft_controller.repo.query.idle_time", unit: {:native, :millisecond}),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
