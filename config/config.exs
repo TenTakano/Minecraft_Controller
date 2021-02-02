@@ -7,11 +7,11 @@
 # General application configuration
 use Mix.Config
 
-config :revive,
+config :minecraft_controller,
   ecto_repos: [MinecraftController.Repo]
 
 # Configures the endpoint
-config :revive, MinecraftControllerWeb.Endpoint,
+config :minecraft_controller, MinecraftControllerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "wE9GdKOszRedTXXKgwIiqiuhoCtWjMyTvkPhuojijgPhMB00enXIU6OlxkpTbgFa",
   render_errors: [view: MinecraftControllerWeb.ErrorView, accepts: ~w(html json), layout: false],

@@ -3,7 +3,7 @@ defmodule MinecraftController.MixProject do
 
   def project do
     [
-      app: :revive,
+      app: :minecraft_controller,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
