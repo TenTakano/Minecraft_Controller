@@ -1,16 +1,16 @@
-defmodule ReviveWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :revive
+defmodule MinecraftControllerWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :minecraft_controller
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_revive_key",
+    key: "_minecraft_controller_key",
     signing_salt: "RznG18+X"
   ]
 
-  socket "/socket", ReviveWeb.UserSocket,
+  socket "/socket", MinecraftControllerWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -22,7 +22,7 @@ defmodule ReviveWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :revive,
+    from: :minecraft_controller,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -32,7 +32,7 @@ defmodule ReviveWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :revive
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :minecraft_controller
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -50,5 +50,5 @@ defmodule ReviveWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ReviveWeb.Router
+  plug MinecraftControllerWeb.Router
 end

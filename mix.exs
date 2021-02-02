@@ -1,9 +1,9 @@
-defmodule Revive.MixProject do
+defmodule MinecraftController.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :revive,
+      app: :minecraft_controller,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Revive.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Revive.Application, []},
+      mod: {MinecraftController.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

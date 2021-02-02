@@ -1,6 +1,6 @@
-# Revive
+# MinecraftController
 
-Revive is my boilerplate of Web Application. Revive uses Phoenix as a backend and React as a frontend.
+MinecraftController is my boilerplate of Web Application. MinecraftController uses Phoenix as a backend and React as a frontend.
 
 To start your Phoenix server:
 

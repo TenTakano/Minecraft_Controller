@@ -1,4 +1,4 @@
-defmodule ReviveWeb.ConnCase do
+defmodule MinecraftControllerWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule ReviveWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ReviveWeb.ConnCase, async: true`, although
+  by setting `use MinecraftControllerWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,20 +22,20 @@ defmodule ReviveWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import ReviveWeb.ConnCase
+      import MinecraftControllerWeb.ConnCase
 
-      alias ReviveWeb.Router.Helpers, as: Routes
+      alias MinecraftControllerWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint ReviveWeb.Endpoint
+      @endpoint MinecraftControllerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Revive.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(MinecraftController.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Revive.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(MinecraftController.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

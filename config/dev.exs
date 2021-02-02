@@ -1,10 +1,10 @@
 use Mix.Config
 
 # Configure your database
-config :revive, Revive.Repo,
+config :minecraft_controller, MinecraftController.Repo,
   username: "postgres",
   password: "postgres",
-  database: "revive_dev",
+  database: "minecraft_controller_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,7 +15,7 @@ config :revive, Revive.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :revive, ReviveWeb.Endpoint,
+config :minecraft_controller, MinecraftControllerWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -55,13 +55,13 @@ config :revive, ReviveWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :revive, ReviveWeb.Endpoint,
+config :minecraft_controller, MinecraftControllerWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/revive_web/(live|views)/.*(ex)$",
-      ~r"lib/revive_web/templates/.*(eex)$"
+      ~r"lib/minecraft_controller_web/(live|views)/.*(ex)$",
+      ~r"lib/minecraft_controller_web/templates/.*(eex)$"
     ]
   ]
 

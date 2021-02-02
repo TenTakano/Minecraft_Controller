@@ -1,5 +1,5 @@
-defmodule ReviveWeb.Router do
-  use ReviveWeb, :router
+defmodule MinecraftControllerWeb.Router do
+  use MinecraftControllerWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -14,7 +14,7 @@ defmodule ReviveWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ReviveWeb do
+  # scope "/api", MinecraftControllerWeb do
   #   pipe_through :api
   # end
 
@@ -30,11 +30,11 @@ defmodule ReviveWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: ReviveWeb.Telemetry
+      live_dashboard "/dashboard", metrics: MinecraftControllerWeb.Telemetry
     end
   end
 
-  scope "/", ReviveWeb do
+  scope "/", MinecraftControllerWeb do
     pipe_through :browser
 
     get "/*path", PageController, :index

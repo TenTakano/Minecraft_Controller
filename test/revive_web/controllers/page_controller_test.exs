@@ -1,5 +1,5 @@
-defmodule ReviveWeb.PageControllerTest do
-  use ReviveWeb.ConnCase
+defmodule MinecraftControllerWeb.PageControllerTest do
+  use MinecraftControllerWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

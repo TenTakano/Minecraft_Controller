@@ -1,5 +1,5 @@
-defmodule ReviveWeb.ErrorView do
-  use ReviveWeb, :view
+defmodule MinecraftControllerWeb.ErrorView do
+  use MinecraftControllerWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

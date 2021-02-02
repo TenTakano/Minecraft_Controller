@@ -7,15 +7,15 @@
 # General application configuration
 use Mix.Config
 
-config :revive,
-  ecto_repos: [Revive.Repo]
+config :minecraft_controller,
+  ecto_repos: [MinecraftController.Repo]
 
 # Configures the endpoint
-config :revive, ReviveWeb.Endpoint,
+config :minecraft_controller, MinecraftControllerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "wE9GdKOszRedTXXKgwIiqiuhoCtWjMyTvkPhuojijgPhMB00enXIU6OlxkpTbgFa",
-  render_errors: [view: ReviveWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Revive.PubSub,
+  render_errors: [view: MinecraftControllerWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: MinecraftController.PubSub,
   live_view: [signing_salt: "3wj8KTv5"]
 
 # Configures Elixir's Logger
