@@ -1,5 +1,5 @@
-defmodule ReviveWeb.PageController do
-  use ReviveWeb, :controller
+defmodule MinecraftControllerWeb.PageController do
+  use MinecraftControllerWeb, :controller
 
   def index(conn, _params) do
     render(conn, "index.html")

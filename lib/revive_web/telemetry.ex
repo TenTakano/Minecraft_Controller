@@ -1,4 +1,4 @@
-defmodule ReviveWeb.Telemetry do
+defmodule MinecraftControllerWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -49,7 +49,7 @@ defmodule ReviveWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {ReviveWeb, :count_users, []}
+      # {MinecraftControllerWeb, :count_users, []}
     ]
   end
 end

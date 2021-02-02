@@ -1,3 +1,3 @@
-defmodule ReviveWeb.PageView do
-  use ReviveWeb, :view
+defmodule MinecraftControllerWeb.PageView do
+  use MinecraftControllerWeb, :view
 end

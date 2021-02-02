@@ -1,12 +1,12 @@
-defmodule ReviveWeb do
+defmodule MinecraftControllerWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use ReviveWeb, :controller
-      use ReviveWeb, :view
+      use MinecraftControllerWeb, :controller
+      use MinecraftControllerWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,11 +19,11 @@ defmodule ReviveWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ReviveWeb
+      use Phoenix.Controller, namespace: MinecraftControllerWeb
 
       import Plug.Conn
-      import ReviveWeb.Gettext
-      alias ReviveWeb.Router.Helpers, as: Routes
+      import MinecraftControllerWeb.Gettext
+      alias MinecraftControllerWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -31,7 +31,7 @@ defmodule ReviveWeb do
     quote do
       use Phoenix.View,
         root: "lib/revive_web/templates",
-        namespace: ReviveWeb
+        namespace: MinecraftControllerWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -54,7 +54,7 @@ defmodule ReviveWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ReviveWeb.Gettext
+      import MinecraftControllerWeb.Gettext
     end
   end
 
@@ -66,9 +66,9 @@ defmodule ReviveWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import ReviveWeb.ErrorHelpers
-      import ReviveWeb.Gettext
-      alias ReviveWeb.Router.Helpers, as: Routes
+      import MinecraftControllerWeb.ErrorHelpers
+      import MinecraftControllerWeb.Gettext
+      alias MinecraftControllerWeb.Router.Helpers, as: Routes
     end
   end
 

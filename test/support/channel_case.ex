@@ -1,4 +1,4 @@
-defmodule ReviveWeb.ChannelCase do
+defmodule MinecraftControllerWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule ReviveWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ReviveWeb.ChannelCase, async: true`, although
+  by setting `use MinecraftControllerWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule ReviveWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import ReviveWeb.ChannelCase
+      import MinecraftControllerWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint ReviveWeb.Endpoint
+      @endpoint MinecraftControllerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Revive.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(MinecraftController.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Revive.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(MinecraftController.Repo, {:shared, self()})
     end
 
     :ok

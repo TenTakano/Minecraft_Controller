@@ -1,4 +1,4 @@
-defmodule Revive.Repo do
+defmodule MinecraftController.Repo do
   use Ecto.Repo,
     otp_app: :revive,
     adapter: Ecto.Adapters.Postgres

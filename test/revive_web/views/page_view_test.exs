@@ -1,3 +1,3 @@
-defmodule ReviveWeb.PageViewTest do
-  use ReviveWeb.ConnCase, async: true
+defmodule MinecraftControllerWeb.PageViewTest do
+  use MinecraftControllerWeb.ConnCase, async: true
 end

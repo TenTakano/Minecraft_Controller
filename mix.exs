@@ -1,4 +1,4 @@
-defmodule Revive.MixProject do
+defmodule MinecraftController.MixProject do
   use Mix.Project
 
   def project do
@@ -19,7 +19,7 @@ defmodule Revive.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Revive.Application, []},
+      mod: {MinecraftController.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

@@ -1,6 +1,6 @@
-defmodule Revive do
+defmodule MinecraftController do
   @moduledoc """
-  Revive keeps the contexts that define your domain
+  MinecraftController keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

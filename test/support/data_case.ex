@@ -1,4 +1,4 @@
-defmodule Revive.DataCase do
+defmodule MinecraftController.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Revive.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Revive.DataCase, async: true`, although
+  by setting `use MinecraftController.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,20 +18,20 @@ defmodule Revive.DataCase do
 
   using do
     quote do
-      alias Revive.Repo
+      alias MinecraftController.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Revive.DataCase
+      import MinecraftController.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Revive.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(MinecraftController.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Revive.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(MinecraftController.Repo, {:shared, self()})
     end
 
     :ok

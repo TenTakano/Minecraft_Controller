@@ -1,3 +1,3 @@
-defmodule ReviveWeb.LayoutView do
-  use ReviveWeb, :view
+defmodule MinecraftControllerWeb.LayoutView do
+  use MinecraftControllerWeb, :view
 end

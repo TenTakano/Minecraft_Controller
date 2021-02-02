@@ -1,4 +1,4 @@
-defmodule ReviveWeb.Endpoint do
+defmodule MinecraftControllerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :revive
 
   # The session will be stored in the cookie and signed,
@@ -10,7 +10,7 @@ defmodule ReviveWeb.Endpoint do
     signing_salt: "RznG18+X"
   ]
 
-  socket "/socket", ReviveWeb.UserSocket,
+  socket "/socket", MinecraftControllerWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -50,5 +50,5 @@ defmodule ReviveWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ReviveWeb.Router
+  plug MinecraftControllerWeb.Router
 end

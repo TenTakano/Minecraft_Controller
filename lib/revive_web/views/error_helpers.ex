@@ -1,4 +1,4 @@
-defmodule ReviveWeb.ErrorHelpers do
+defmodule MinecraftControllerWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -39,9 +39,9 @@ defmodule ReviveWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(ReviveWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(MinecraftControllerWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(ReviveWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(MinecraftControllerWeb.Gettext, "errors", msg, opts)
     end
   end
 end
