@@ -60,8 +60,8 @@ config :minecraft_controller, MinecraftControllerWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/revive_web/(live|views)/.*(ex)$",
-      ~r"lib/revive_web/templates/.*(eex)$"
+      ~r"lib/minecraft_controller_web/(live|views)/.*(ex)$",
+      ~r"lib/minecraft_controller_web/templates/.*(eex)$"
     ]
   ]
 

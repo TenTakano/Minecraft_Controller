@@ -30,7 +30,7 @@ defmodule MinecraftControllerWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/revive_web/templates",
+        root: "lib/minecraft_controller_web/templates",
         namespace: MinecraftControllerWeb
 
       # Import convenience functions from controllers
