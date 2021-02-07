@@ -13,11 +13,6 @@ defmodule MinecraftControllerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", MinecraftControllerWeb do
-  #   pipe_through :api
-  # end
-
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -38,5 +33,11 @@ defmodule MinecraftControllerWeb.Router do
     pipe_through :browser
 
     get "/*path", PageController, :index
+  end
+
+  scope "/api", MinecraftControllerWeb do
+    pipe_through :api
+
+    post "/users/login", UserController.Login, :post
   end
 end
