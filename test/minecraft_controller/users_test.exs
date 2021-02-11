@@ -15,5 +15,9 @@ defmodule MinecraftController.Context.UsersTest do
 
       assert Users.get_user(user.id) == {:ok, user}
     end
+
+    test "returns error for non-existence user id" do
+      assert Users.get_user("non-existence") == {:error, :not_found}
+    end
   end
 end
