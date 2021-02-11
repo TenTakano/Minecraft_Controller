@@ -2,6 +2,7 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
   use MinecraftControllerWeb, :controller
 
   alias MinecraftController.Context.EC2
+  alias MinecraftController.Utils
 
   @retry_interval_milliseconds 1000
   @retry_times_limit 10
@@ -19,7 +20,7 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
       }
       json(conn, res_body)
     else
-      {:error, :not_found} -> conn |> put_status(400) |> json(%{message: "Instance not found"})
+      {:error, :not_found} -> conn |> put_status(404) |> json(%{message: "Instance not found"})
       :timeout -> conn |> put_status(409) |> json(%{message: "Something error occurs on AWS"})
     end
   end
@@ -32,8 +33,8 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
     case {EC2.get_instance_status(instance_id), retry_times} do
       {"running", _} -> :ok
       {_, retry_times} when retry_times < @retry_times_limit ->
-        :timer.sleep(@retry_interval_milliseconds)
-        wait_for_instance_started(instance_id)
+        Utils.wait_milliseconds(@retry_interval_milliseconds)
+        wait_for_instance_started(instance_id, retry_times + 1)
       _ ->
         :timeout
     end
