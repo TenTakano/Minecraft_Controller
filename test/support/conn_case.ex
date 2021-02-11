@@ -31,13 +31,8 @@ defmodule MinecraftControllerWeb.ConnCase do
     end
   end
 
-  setup _tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(MinecraftController.Repo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(MinecraftController.Repo, {:shared, self()})
-    # end
-
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+  setup do
+    on_exit(&:meck.unload/0)
+    [conn: Phoenix.ConnTest.build_conn()]
   end
 end

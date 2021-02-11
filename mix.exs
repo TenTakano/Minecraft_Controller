@@ -28,9 +28,6 @@ defmodule MinecraftController.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
   defp deps do
     [
       {:phoenix, "~> 1.5.5"},
@@ -45,7 +42,10 @@ defmodule MinecraftController.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:ex_crypto, "~> 0.10.0"}
+      {:ex_crypto, "~> 0.10.0"},
+      {:ex_aws_dynamo, "~> 4.0"},
+      {:hackney, "~> 1.9"},
+      {:meck, "~> 0.9.0", only: :test}
     ]
   end
 
