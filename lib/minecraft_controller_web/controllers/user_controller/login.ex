@@ -2,12 +2,12 @@ defmodule MinecraftControllerWeb.UserController.Login do
   use MinecraftControllerWeb, :controller
 
   alias MinecraftController.Auth
-  alias MinecraftController.Context.User
+  alias MinecraftController.Context.Users
 
   def post(conn, params) do
     with(
       {:ok, %{id: user_id, password: password}} <- validate_params(params),
-      {:ok, user} <- User.get_user(user_id),
+      {:ok, user} <- Users.get_user(user_id),
       true <- Auth.verify_password(password, user.salt, user.password_hash)
     )
     do
