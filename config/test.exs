@@ -20,3 +20,9 @@ config :minecraft_controller, MinecraftControllerWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :ex_aws, :dynamodb,
+  scheme: "http://",
+  host: "localhost",
+  port: 8000,
+  region: "ap-northeast-1"
