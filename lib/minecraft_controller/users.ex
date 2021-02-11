@@ -1,6 +1,5 @@
 defmodule MinecraftController.Context.Users do
   alias ExAws.Dynamo
-  alias MinecraftController.Auth
 
   defmodule User do
     @derive [Dynamo.Encodable]
