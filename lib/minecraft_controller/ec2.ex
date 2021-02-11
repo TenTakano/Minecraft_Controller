@@ -1,26 +1,17 @@
 defmodule MinecraftController.Context.EC2 do
   alias ExAws.EC2
 
-  @target_tag %{"key" => "controller", "value" => "minecraft-controller"}
+  @tag_key "controller"
+  @tag_value "minecraft_controller"
 
   @spec target_instance_id() :: String.t | nil
   def target_instance_id() do
-    try do
-      EC2.describe_instances()
-      |> request!()
-      |> get_in(["DescribeInstancesResponse", "reservationSet", "item"])
-      |> Enum.find(fn %{"tagSet" => %{"item" => tags}} ->
-        cond do
-          is_list(tags) -> Enum.any?(tags, &(&1 == @target_tag))
-          is_map(tags) -> tags == @target_tag
-        end
-      end)
-      |> case do
-        %{"instanceId" => instance_id} -> instance_id
-        _ -> nil
-      end
-    rescue
-      _ -> nil
+    EC2.describe_instances(filters: [{"tag:#{@tag_key}", @tag_value}])
+    |> request!()
+    |> get_in(["DescribeInstancesResponse", "reservationSet"])
+    |> case do
+      %{"item" => %{"instanceId" => instance_id}} -> instance_id
+      nil -> nil
     end
   end
 

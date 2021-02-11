@@ -12,15 +12,6 @@ defmodule MinecraftController.Context.EC2Test do
           <DescribeInstancesResponse>
             <reservationSet>
               <item>
-                <instanceId>main_instance_id</instanceId>
-                <tagSet>
-                  <item>
-                    <key>Name</key>
-                    <value>Main</value>
-                  </item>
-                </tagSet>
-              </item>
-              <item>
                 <instanceId>#{instance_id}</instanceId>
                 <tagSet>
                   <item>
@@ -48,15 +39,6 @@ defmodule MinecraftController.Context.EC2Test do
           """
           <DescribeInstancesResponse>
             <reservationSet>
-              <item>
-                <instanceId>main_instance_id</instanceId>
-                <tagSet>
-                  <item>
-                    <key>Name</key>
-                    <value>Main</value>
-                  </item>
-                </tagSet>
-              </item>
             </reservationSet>
           </DescribeInstancesResponse>
           """
