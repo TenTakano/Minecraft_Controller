@@ -4,13 +4,13 @@ defmodule MinecraftController.Context.EC2 do
   @tag_key "controller"
   @tag_value "minecraft_controller"
 
-  @spec target_instance_id() :: String.t | nil
+  @spec target_instance_id() :: {:ok, String.t} | {:error, :not_found}
   def target_instance_id() do
     EC2.describe_instances(filters: [{"tag:#{@tag_key}", @tag_value}])
     |> request!()
     |> case do
-      %{"item" => %{"instanceId" => instance_id}} -> instance_id
-      nil -> nil
+      %{"item" => %{"instanceId" => instance_id}} -> {:ok, instance_id}
+      nil -> {:error, :not_found}
     end
   end
 
