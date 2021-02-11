@@ -8,9 +8,18 @@ defmodule MinecraftController.Context.EC2 do
   def target_instance_id() do
     EC2.describe_instances(filters: [{"tag:#{@tag_key}", @tag_value}])
     |> request!()
-    |> get_in(["DescribeInstancesResponse", "reservationSet"])
     |> case do
       %{"item" => %{"instanceId" => instance_id}} -> instance_id
+      nil -> nil
+    end
+  end
+
+  @spec get_instance_status(String.t) :: String.t | nil
+  def get_instance_status(instance_id) do
+    EC2.describe_instances(filters: [{"insntance-id", instance_id}])
+    |> request!()
+    |> case do
+      %{"item" => %{"instanceState" => %{"name" => status}}} -> status
       nil -> nil
     end
   end
@@ -24,6 +33,6 @@ defmodule MinecraftController.Context.EC2 do
   @spec request!(map) :: map
   defp request!(op) do
     %{status_code: 200, body: body} = ExAws.request!(op)
-    XmlToMap.naive_map(body)
+    XmlToMap.naive_map(body) |> get_in(["DescribeInstancesResponse", "reservationSet"])
   end
 end
