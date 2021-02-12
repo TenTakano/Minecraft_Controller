@@ -9,21 +9,25 @@ defmodule MinecraftController.Context.EC2Test do
       <DescribeInstancesResponse>
         <reservationSet>
           <item>
-            <instanceId>#{instance_id}</instanceId>
-            <tagSet>
+            <instancesSet>
               <item>
-                <key>Name</key>
-                <value>Minecraft</value>
+                <instanceId>#{instance_id}</instanceId>
+                <tagSet>
+                  <item>
+                    <key>Name</key>
+                    <value>Minecraft</value>
+                  </item>
+                  <item>
+                    <key>controller</key>
+                    <value>minecraft-controller</value>
+                  </item>
+                </tagSet>
+                <instanceState>
+                  <code>80</code>
+                  <name>stopped</name>
+                </instanceState>
               </item>
-              <item>
-                <key>controller</key>
-                <value>minecraft-controller</value>
-              </item>
-            </tagSet>
-            <instanceState>
-              <code>80</code>
-              <name>stopped</name>
-            </instanceState>
+            </instancesSet>
           </item>
         </reservationSet>
       </DescribeInstancesResponse>
