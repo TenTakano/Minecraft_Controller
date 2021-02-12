@@ -44,8 +44,10 @@ defmodule MinecraftController.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:ex_crypto, "~> 0.10.0"},
       {:ex_aws_dynamo, "~> 4.0"},
+      {:ex_aws_ec2, "~> 2.0"},
       {:hackney, "~> 1.9"},
-      {:meck, "~> 0.9.0", only: :test}
+      {:meck, "~> 0.9.0", only: :test},
+      {:elixir_xml_to_map, "~> 2.0"}
     ]
   end
 

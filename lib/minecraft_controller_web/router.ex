@@ -29,15 +29,17 @@ defmodule MinecraftControllerWeb.Router do
     end
   end
 
-  scope "/", MinecraftControllerWeb do
-    pipe_through :browser
-
-    get "/*path", PageController, :index
-  end
-
   scope "/api", MinecraftControllerWeb do
     pipe_through :api
 
     post "/users/login", UserController.Login, :post
+
+    get "/ec2/start", EC2Controller.Start, :get
+  end
+
+  scope "/", MinecraftControllerWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :index
   end
 end
