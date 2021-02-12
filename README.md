@@ -1,12 +1,4 @@
 # MinecraftController
 
-MinecraftController is my boilerplate of Web Application. MinecraftController uses Phoenix as a backend and React as a frontend.
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` or `yarn install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+MinecraftController is a controller for Minecraft server that achieves both low cost and high spec on AWS EC2.
+MinecraftController runs on a low-cost EC2 instance all the time, and provides interfaces for users to start a high-cost EC2 instance. Since the controller limits the running time of the high-cost instance, you can save the cost.
