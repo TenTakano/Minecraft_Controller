@@ -6,6 +6,8 @@ defmodule MinecraftControllerWeb.UserController.LoginTest do
   alias MinecraftController.Context.Users
   alias Users.User
 
+  @path "/api/users/login"
+
   describe "post/2" do
     setup %{conn: conn} do
       [conn: put_req_header(conn, "content-type", "application/json")]
@@ -19,11 +21,9 @@ defmodule MinecraftControllerWeb.UserController.LoginTest do
       }
       :meck.expect(Users, :get_user, fn _ -> {:ok, user} end)
       :meck.expect(Token, :create!, fn (_, _) -> "sometoken" end)
-      expected = %{"token" => "sometoken"}
 
       req_body = %{id: "some_id", password: "password"}
-      assert %{status: 200, resp_body: body} = post(conn, "/api/users/login", req_body)
-      assert Jason.decode!(body) == expected
+      post(conn, @path, req_body) |> assert_response(200, %{token: "sometoken"})
     end
   end
 end
