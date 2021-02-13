@@ -14,8 +14,8 @@ defmodule MinecraftControllerWeb.UserController.Login do
       res_body = %{token: Auth.gen_access_token(user)}
       json(conn, res_body)
     else
-      :bad_request -> conn |> put_status(400) |> json(%{message: "Given parameters were invalid."})
-      false -> conn |> put_status(401) |> json(%{message: "Failed to log in."})
+      :bad_request -> error_json(conn, Error.BadRequest)
+      false -> error_json(conn, Error.ResourceNotFound)
     end
   end
 
