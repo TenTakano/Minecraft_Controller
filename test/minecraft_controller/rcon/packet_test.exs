@@ -1,7 +1,5 @@
 defmodule MinecraftController.RCON.PacketTest do
-  use ExUnit.Case
-
-  alias MinecraftController.RCON.Packet
+  use MinecraftController.CommonCase
 
   describe "encode/1" do
     test "encodes login command" do
