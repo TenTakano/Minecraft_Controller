@@ -16,7 +16,7 @@ defmodule MinecraftController.Context.EC2 do
 
   @spec get_instance_status(String.t) :: String.t | nil
   def get_instance_status(instance_id) do
-    EC2.describe_instances(filters: [{"insntance-id", instance_id}])
+    EC2.describe_instances(filters: [{"instance-id", [instance_id]}])
     |> request!()
     |> case do
       %{"instanceState" => %{"name" => status}} -> status
@@ -26,7 +26,7 @@ defmodule MinecraftController.Context.EC2 do
 
   @spec start_instance(String.t) :: :ok
   def start_instance(instance_id) do
-    EC2.start_instances([instance_id]) |> request!()
+    %{status_code: 200} = EC2.start_instances([instance_id]) |> ExAws.request!()
     :ok
   end
 
