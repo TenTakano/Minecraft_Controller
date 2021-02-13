@@ -24,7 +24,7 @@ defmodule MinecraftController.RCON.Packet do
   end
 
   @spec type_to_code(atom) :: integer | nil
-  defp type_to_code(:login), do: 3
+  defp type_to_code(:auth), do: 3
   defp type_to_code(:command), do: 2
   defp type_to_code(_), do: nil
 end
