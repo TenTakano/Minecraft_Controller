@@ -24,6 +24,15 @@ defmodule MinecraftControllerWeb do
       import Plug.Conn
       import MinecraftControllerWeb.Gettext
       alias MinecraftControllerWeb.Router.Helpers, as: Routes
+      alias MinecraftControllerWeb.Error
+
+      @spec error_json(Conn.t, module) :: Conn.t
+      defp error_json(conn, error_module) do
+        error = error_module.new()
+        conn
+        |> put_status(error.status)
+        |> json(Map.take(error, [:type, :message]))
+      end
     end
   end
 

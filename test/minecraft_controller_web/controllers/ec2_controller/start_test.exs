@@ -17,7 +17,7 @@ defmodule MinecraftControllerWeb.EC2Controller.StartTest do
 
     test "returns 404 if target instance isn't setup", %{conn: conn} do
       :meck.expect(EC2, :target_instance_id, fn -> {:error, :not_found} end)
-      get(conn, @path) |> assert_response(404, %{message: "Instance not found"})
+      get(conn, @path) |> assert_error(Error.InstanceNotFound)
     end
 
     test "returns 409 if wait sequence timeout", %{conn: conn} do
@@ -25,7 +25,7 @@ defmodule MinecraftControllerWeb.EC2Controller.StartTest do
       :meck.expect(EC2, :start_instance, fn _ -> :ok end)
       :meck.expect(EC2, :get_instance_status, fn _ -> "pending" end)
       :meck.expect(Utils, :wait_milliseconds, fn _ -> :ok end)
-      get(conn, @path) |> assert_response(409, %{message: "Something error occurs on AWS"})
+      get(conn, @path) |> assert_error(Error.AwsError)
     end
   end
 end

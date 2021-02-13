@@ -20,8 +20,8 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
       }
       json(conn, res_body)
     else
-      {:error, :not_found} -> conn |> put_status(404) |> json(%{message: "Instance not found"})
-      :timeout -> conn |> put_status(409) |> json(%{message: "Something error occurs on AWS"})
+      {:error, :not_found} -> error_json(conn, Error.InstanceNotFound)
+      :timeout -> error_json(conn, Error.AwsError)
     end
   end
 

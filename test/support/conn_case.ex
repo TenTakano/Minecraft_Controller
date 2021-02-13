@@ -8,6 +8,7 @@ defmodule MinecraftControllerWeb.ConnCase do
       import Phoenix.ConnTest
       import MinecraftControllerWeb.ConnCase
 
+      alias MinecraftControllerWeb.Error
       alias MinecraftControllerWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
@@ -16,8 +17,19 @@ defmodule MinecraftControllerWeb.ConnCase do
       def assert_response(response, status, expected) do
         string_key_expected = Enum.into(expected, %{}, fn {key, value} -> {to_string(key), value} end)
 
-        assert status == response.status
+        assert response.status == status
         assert Jason.decode!(response.resp_body) == string_key_expected
+      end
+
+      def assert_error(response, error_module) do
+        {expected_status, expected_body} =
+          error_module.new()
+          |> Map.from_struct()
+          |> Enum.into(%{}, fn {key, value} -> {to_string(key), value} end)
+          |> Map.pop("status")
+
+        assert response.status == expected_status
+        assert Jason.decode!(response.resp_body) == expected_body
       end
     end
   end
