@@ -26,7 +26,7 @@ defmodule MinecraftController.Context.EC2 do
 
   @spec start_instance(String.t) :: :ok
   def start_instance(instance_id) do
-    EC2.start_instances([instance_id]) |> request!()
+    %{status_code: 200} = EC2.start_instances([instance_id]) |> ExAws.request!()
     :ok
   end
 

@@ -66,4 +66,29 @@ defmodule MinecraftController.Context.EC2Test do
       assert EC2.get_instance_status(instance_id) |> is_nil()
     end
   end
+
+  describe "start_instance/1" do
+    test "starts instance" do
+      xml =
+        """
+          <StartInstancesResponse>
+            <instancesSet>
+              <item>
+                <currentState>
+                  <code>16</code>
+                  <name>running</code>
+                </currentState>
+                <instanceId>instance_id</instanceId>
+                <previousState>
+                  <code>16</code>
+                  <name>running</name>
+                </previousState>
+              </item>
+            </instancesSet>
+          </StartInstancesResponse>
+        """
+      :meck.expect(ExAws, :request!, fn _ -> %{status_code: 200, body: xml} end)
+      assert :ok = EC2.start_instance("instance_id")
+    end
+  end
 end
