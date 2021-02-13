@@ -56,8 +56,12 @@ defmodule MinecraftController.Context.EC2Test do
 
   describe "get_instance_status/1" do
     test "returns instance status", %{instance_id: instance_id, xml: xml} do
-      :meck.expect(ExAws, :request!, fn _ -> %{status_code: 200, body: xml} end)
+      :meck.expect(ExAws, :request!, fn %{params: %{"Filter.1.Name" => filter_name, "Filter.1.Value.1" => filter_value}} ->
+        send(self(), {filter_name, filter_value})
+        %{status_code: 200, body: xml}
+      end)
       assert EC2.get_instance_status(instance_id) == "stopped"
+      assert_received {"instance-id", instance_id}
     end
 
     test "returns nil if target instance doesn't exist", ctx do
