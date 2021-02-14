@@ -65,7 +65,7 @@ config :minecraft_controller, MinecraftControllerWeb.Endpoint,
     ]
   ]
 
-config :minecraft_controller, MinecraftController.RCON,
+config :minecraft_controller, MinecraftController.RCON.Client,
   host: "172.17.0.5",
   port: 25575,
   pass: System.get_env("MINECRAFT_RCON_PASS")
