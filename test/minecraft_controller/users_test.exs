@@ -1,7 +1,6 @@
 defmodule MinecraftController.Context.UsersTest do
   use MinecraftController.DataCase
 
-  alias MinecraftController.Context.Users
   alias Users.User
 
   describe "get_user/1" do

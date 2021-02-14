@@ -1,8 +1,6 @@
 defmodule MinecraftController.Context.EC2Test do
   use MinecraftController.DataCase
 
-  alias MinecraftController.Context.EC2
-
   setup do
     instance_id = "some_instance_id"
     xml = """

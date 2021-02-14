@@ -5,6 +5,8 @@ defmodule MinecraftController.DataCase do
 
   using do
     quote do
+      use MinecraftController.CommonCase
+
       alias ExAws.Dynamo
 
       import MinecraftController.DataCase

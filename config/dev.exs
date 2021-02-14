@@ -65,6 +65,11 @@ config :minecraft_controller, MinecraftControllerWeb.Endpoint,
     ]
   ]
 
+config :minecraft_controller, MinecraftController.RCON,
+  host: "172.17.0.5",
+  port: 25575,
+  pass: System.get_env("MINECRAFT_RCON_PASS")
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
