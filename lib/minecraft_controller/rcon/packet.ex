@@ -30,13 +30,16 @@ defmodule MinecraftController.RCON.Packet do
     with(
       {:ok, payload_part_size} <- payload_size(bytes),
       <<
-        _length :: 32-signed-integer-little,
+        length :: 32-signed-integer-little,
         id :: 32-signed-integer-little,
         type_code :: 32-signed-integer-little,
         payload :: binary-size(payload_part_size)
-      >> <> @terminate <- bytes
+      >> <> @terminate <- bytes,
+      true <- length == payload_part_size + @fixed_part_size,
+      true <- length <= @payload_limit,
+      type when is_atom(type) <- code_to_type(type_code)
     ) do
-      %{id: id, type: code_to_type(type_code), payload: payload}
+      %{id: id, type: type, payload: payload}
     else
       _ -> raise ArgumentError
     end
@@ -47,10 +50,10 @@ defmodule MinecraftController.RCON.Packet do
   defp type_to_code(:command), do: 2
   defp type_to_code(_), do: nil
 
-  @spec code_to_type(non_neg_integer) :: atom | nil
+  @spec code_to_type(non_neg_integer) :: atom | non_neg_integer
   defp code_to_type(2), do: :auth_response
   defp code_to_type(0), do: :command_response
-  defp code_to_type(_), do: nil
+  defp code_to_type(code), do: code
 
   @spec packet_length(String.t) :: {:ok, non_neg_integer} | :error
   defp packet_length(payload) do

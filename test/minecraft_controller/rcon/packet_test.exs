@@ -43,5 +43,16 @@ defmodule MinecraftController.RCON.PacketTest do
         assert Packet.decode(bytes) == expected
       end)
     end
+
+    test "raise error for invalid format binary" do
+      Enum.each([
+        <<0, 0, 0>>,
+        <<100, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 97, 98, 99, 0, 0>>,
+        <<10, 0, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 0, 0>>,
+        <<11, 16, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0>> <> String.duplicate("a", 4097) <> <<0, 0>>
+      ], fn invalid_bytes ->
+        assert_raise ArgumentError, fn -> Packet.decode(invalid_bytes) end
+      end)
+    end
   end
 end
