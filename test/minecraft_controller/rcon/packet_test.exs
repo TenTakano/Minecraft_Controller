@@ -27,4 +27,21 @@ defmodule MinecraftController.RCON.PacketTest do
       end)
     end
   end
+
+  describe "decode/1" do
+    test "decodes responded binary" do
+      Enum.each([
+        {
+          <<10, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0>>,
+          %{id: 1, type: :auth_response, payload: ""}
+        },
+        {
+          <<13, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 97, 98, 99, 0, 0>>,
+          %{id: 2, type: :command_response, payload: "abc"}
+        }
+      ], fn {bytes, expected} ->
+        assert Packet.decode(bytes) == expected
+      end)
+    end
+  end
 end
