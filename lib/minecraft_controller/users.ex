@@ -1,4 +1,4 @@
-defmodule MinecraftController.Context.Users do
+defmodule MinecraftController.Users do
   alias ExAws.Dynamo
 
   defmodule User do

@@ -1,4 +1,4 @@
-defmodule MinecraftController.Context.EC2 do
+defmodule MinecraftController.EC2 do
   alias ExAws.EC2
 
   @tag_key "controller"

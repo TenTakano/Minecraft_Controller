@@ -3,7 +3,7 @@ defmodule MinecraftControllerWeb.UserController.LoginTest do
 
   alias ExCrypto.Token
   alias MinecraftController.Auth
-  alias MinecraftController.Context.Users
+  alias MinecraftController.Users
   alias Users.User
 
   @path "/api/users/login"

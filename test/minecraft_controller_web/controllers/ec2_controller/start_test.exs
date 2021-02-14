@@ -1,7 +1,7 @@
 defmodule MinecraftControllerWeb.EC2Controller.StartTest do
   use MinecraftControllerWeb.ConnCase
 
-  alias MinecraftController.Context.EC2
+  alias MinecraftController.EC2
   alias MinecraftController.Utils
 
   @path "/api/ec2/start"

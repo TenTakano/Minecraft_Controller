@@ -1,4 +1,4 @@
-defmodule MinecraftController.Context.EC2Test do
+defmodule MinecraftController.EC2Test do
   use MinecraftController.DataCase
 
   setup do

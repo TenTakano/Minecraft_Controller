@@ -2,7 +2,7 @@ defmodule Mix.Tasks.CheckAndStopServer do
   use Mix.Task
 
   alias MinecraftController.RCON
-  alias MinecraftController.Context.EC2
+  alias MinecraftController.EC2
 
   def run(_) do
     with(
