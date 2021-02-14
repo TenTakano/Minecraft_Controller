@@ -11,8 +11,8 @@ defmodule MinecraftController.RCON do
           ~r/There are (?<count>\d*) of a max of (?<limit>\d*) players online: (?<members>.*)/
           |> Regex.named_captures(response_message)
           |> Enum.into(%{}, fn
-            {"members", ""} -> {:member, []}
-            {"members", members} -> {:member, String.split(members, " ")}
+            {"members", ""} -> {:members, []}
+            {"members", members} -> {:members, String.split(members, " ")}
             {key, value} -> {String.to_atom(key), String.to_integer(value)}
           end)
         {:ok, res}
