@@ -2,12 +2,14 @@ defmodule MinecraftController.RCON.Packet do
   @enforce_keys [:id, :type]
   defstruct [:id, :type, :payload]
 
+  @type t :: %__MODULE__{id: integer, type: atom, payload: String.t}
+
   @terminate <<0, 0>>
   @payload_limit 4096
   @fixed_part_size 10
   @length_part_size 4
 
-  @spec encode(map) :: binary
+  @spec encode(t) :: binary
   def encode(packet) do
     with(
       {:ok, type_code} <- type_to_code(packet.type),
@@ -25,7 +27,7 @@ defmodule MinecraftController.RCON.Packet do
     end
   end
 
-  @spec decode(binary) :: map
+  @spec decode(binary) :: t
   def decode(bytes) do
     with(
       {:ok, payload_part_size} <- payload_size(bytes),
