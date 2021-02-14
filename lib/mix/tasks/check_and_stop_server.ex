@@ -4,11 +4,18 @@ defmodule Mix.Tasks.CheckAndStopServer do
   alias MinecraftController.RCON
 
   def run(_) do
-    case RCON.get_player_list() do
-      {:ok, %{"count" => count}} when count > 0 ->
-        :do_something
-      _ ->
-        :ok
+    with(
+      {:ok, player_list} <- RCON.get_player_list(),
+      true <- is_able_to_shutdown(player_list),
+      {:ok, _} <- RCON.stop_server()
+    ) do
+      :shutdown_ec2
+    else
+      false -> :ok
     end
   end
+
+  @spec is_able_to_shutdown(map) :: boolean
+  defp is_able_to_shutdown(%{count: 0}), do: true
+  defp is_able_to_shutdown(_), do: false
 end
