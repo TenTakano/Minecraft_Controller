@@ -16,5 +16,15 @@ defmodule MinecraftController.RCON.PacketTest do
         assert Packet.encode(command) == expected
       end)
     end
+
+    test "raise error for invalid format packet" do
+      Enum.each([
+        %{id: "a", type: :auth, payload: "password"},
+        %{id: 1, type: :invalid, payload: "password"},
+        %{id: 1, type: :auth, payload: String.duplicate("a", 4097)}
+      ], fn invalid_command ->
+        assert_raise ArgumentError, fn -> Packet.encode(invalid_command) end
+      end)
+    end
   end
 end

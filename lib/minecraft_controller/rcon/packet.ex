@@ -3,15 +3,14 @@ defmodule MinecraftController.RCON.Packet do
   defstruct [:id, :type, :payload]
 
   @terminate <<0, 0>>
+  @payload_limit 4096
   @fixed_part_size 10
-  @flexible_part_size_limit 4096 - @fixed_part_size
 
   @spec encode(map) :: binary
   def encode(packet) do
     with(
       type_code <- type_to_code(packet.type),
-      flexible_part_size when flexible_part_size <= @flexible_part_size_limit <- byte_size(packet.payload),
-      length = flexible_part_size + @fixed_part_size,
+      {:ok, length} <- packet_length(packet.payload),
       header <-
         <<
           length :: 32-signed-integer-little,
@@ -20,6 +19,8 @@ defmodule MinecraftController.RCON.Packet do
         >>
     ) do
       header <> packet.payload <> @terminate
+    else
+      _ -> raise ArgumentError
     end
   end
 
@@ -27,4 +28,12 @@ defmodule MinecraftController.RCON.Packet do
   defp type_to_code(:auth), do: 3
   defp type_to_code(:command), do: 2
   defp type_to_code(_), do: nil
+
+  @spec packet_length(String.t) :: {:ok, integer} | :error
+  defp packet_length(payload) do
+    case byte_size(payload) do
+      length when length <= @payload_limit -> {:ok, length + @fixed_part_size}
+      _ -> :error
+    end
+  end
 end
