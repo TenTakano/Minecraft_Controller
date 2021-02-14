@@ -13,5 +13,11 @@ defmodule MinecraftController.RCONTest do
         assert RCON.get_player_list() == {:ok, expected}
       end)
     end
+
+    test "returns error if rcon connection error occurs" do
+      error_res = {:error, :econnrefused}
+      :meck.expect(Client, :send_command, fn _ -> error_res end)
+      assert RCON.get_player_list() == error_res
+    end
   end
 end
