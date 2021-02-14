@@ -10,7 +10,7 @@ defmodule MinecraftController.RCON.Packet do
   @spec encode(map) :: binary
   def encode(packet) do
     with(
-      type_code <- type_to_code(packet.type),
+      {:ok, type_code} <- type_to_code(packet.type),
       {:ok, length} <- packet_length(packet.payload),
       header <-
         <<
@@ -37,7 +37,7 @@ defmodule MinecraftController.RCON.Packet do
       >> <> @terminate <- bytes,
       true <- length == payload_part_size + @fixed_part_size,
       true <- length <= @payload_limit,
-      type when is_atom(type) <- code_to_type(type_code)
+      {:ok, type} <- code_to_type(type_code)
     ) do
       %{id: id, type: type, payload: payload}
     else
@@ -45,15 +45,15 @@ defmodule MinecraftController.RCON.Packet do
     end
   end
 
-  @spec type_to_code(atom) :: non_neg_integer | nil
-  defp type_to_code(:auth), do: 3
-  defp type_to_code(:command), do: 2
-  defp type_to_code(_), do: nil
+  @spec type_to_code(atom) :: {:ok, non_neg_integer} | :error
+  defp type_to_code(:auth), do: {:ok, 3}
+  defp type_to_code(:command), do: {:ok, 2}
+  defp type_to_code(_), do: :error
 
-  @spec code_to_type(non_neg_integer) :: atom | non_neg_integer
-  defp code_to_type(2), do: :auth_response
-  defp code_to_type(0), do: :command_response
-  defp code_to_type(code), do: code
+  @spec code_to_type(non_neg_integer) :: {:ok, atom} | :error
+  defp code_to_type(2), do: {:ok, :auth_response}
+  defp code_to_type(0), do: {:ok, :command_response}
+  defp code_to_type(_), do: :error
 
   @spec packet_length(String.t) :: {:ok, non_neg_integer} | :error
   defp packet_length(payload) do
