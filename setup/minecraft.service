@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a minecraft
+ExecStop=/usr/bin/docker stop -t 10 minecraft
+
+[Install]
+WantedBy=default.target
