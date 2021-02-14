@@ -1,11 +1,11 @@
 defmodule MinecraftController.RCON.Client do
   alias MinecraftController.RCON.Packet
 
-  @config Application.get_env(:minecraft_controller, __MODULE__) |> Map.new()
+  @config if Mix.env() == :test, do: [], else: Application.get_env(:minecraft_controller, __MODULE__)
 
   @spec send_command(Packet.t) :: Packet.t
   def send_command(command) do
-    %{host: host, port: port, pass: password} = @config
+    [host, port, password] = Enum.map([:host, :port, :pass], &Keyword.fetch!(@config, &1))
     case :gen_tcp.connect(String.to_charlist(host), port, [:binary, active: false]) do
       {:ok, socket} ->
         response = send_with_auth(socket, command, password)

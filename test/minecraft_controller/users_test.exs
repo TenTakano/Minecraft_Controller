@@ -1,4 +1,4 @@
-defmodule MinecraftController.Context.UsersTest do
+defmodule MinecraftController.UsersTest do
   use MinecraftController.DataCase
 
   alias Users.User

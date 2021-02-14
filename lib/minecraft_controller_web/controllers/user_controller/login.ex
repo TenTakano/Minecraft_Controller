@@ -2,7 +2,7 @@ defmodule MinecraftControllerWeb.UserController.Login do
   use MinecraftControllerWeb, :controller
 
   alias MinecraftController.Auth
-  alias MinecraftController.Context.Users
+  alias MinecraftController.Users
 
   def post(conn, params) do
     with(

@@ -1,7 +1,7 @@
 defmodule MinecraftControllerWeb.EC2Controller.Start do
   use MinecraftControllerWeb, :controller
 
-  alias MinecraftController.Context.EC2
+  alias MinecraftController.EC2
   alias MinecraftController.Utils
 
   @retry_interval_milliseconds 1000
