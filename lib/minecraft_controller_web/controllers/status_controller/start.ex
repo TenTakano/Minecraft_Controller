@@ -4,7 +4,7 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
   alias MinecraftController.EC2
   alias MinecraftController.Utils
 
-  @retry_interval_milliseconds 1000
+  @retry_interval_milliseconds 5000
   @retry_times_limit 10
 
   def get(conn, _) do

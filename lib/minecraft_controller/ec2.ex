@@ -17,7 +17,7 @@ defmodule MinecraftController.EC2 do
   @spec get_instance_status(String.t) :: map | nil
   def get_instance_status(instance_id) do
     EC2.describe_instances(filters: [{"instance-id", [instance_id]}])
-    |> request!() |> IO.inspect
+    |> request!()
     |> case do
       nil -> nil
       instance ->
