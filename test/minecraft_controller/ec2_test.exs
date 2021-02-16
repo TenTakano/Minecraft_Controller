@@ -58,7 +58,7 @@ defmodule MinecraftController.EC2Test do
         send(self(), {filter_name, filter_value})
         %{status_code: 200, body: xml}
       end)
-      assert EC2.get_instance_status(instance_id) == "stopped"
+      assert EC2.get_instance_status(instance_id) == %{status: "stopped", ip: nil}
       assert_received {"instance-id", instance_id}
     end
 

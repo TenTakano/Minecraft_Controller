@@ -11,7 +11,7 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
     with(
       {:ok, instance_id} <- EC2.target_instance_id(),
       :ok <- EC2.start_instance(instance_id),
-      ip <- wait_for_instance_started(instance_id)
+      ip when ip != :timeout <- wait_for_instance_started(instance_id)
     )
     do
       json(conn, %{ip: ip})
