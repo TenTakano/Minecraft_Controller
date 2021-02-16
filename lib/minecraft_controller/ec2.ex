@@ -14,13 +14,17 @@ defmodule MinecraftController.EC2 do
     end
   end
 
-  @spec get_instance_status(String.t) :: String.t | nil
+  @spec get_instance_status(String.t) :: map | nil
   def get_instance_status(instance_id) do
     EC2.describe_instances(filters: [{"instance-id", [instance_id]}])
     |> request!()
     |> case do
-      %{"instanceState" => %{"name" => status}} -> status
       nil -> nil
+      instance ->
+        %{
+          status: get_in(instance, ["instanceState", "name"]),
+          ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"])
+        }
     end
   end
 
