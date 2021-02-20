@@ -1,8 +1,12 @@
 defmodule MinecraftController.Auth do
+  alias ExCrypto.{Hash, Token}
+
+  @token_lifetime Application.get_env(:minecraft_controller, :auth) |> Keyword.get(:token_lifetime)
+
   @spec hash_password(String.t, String.t) :: String.t
   def hash_password(password, salt) do
     papper = get_secret_key()
-    ExCrypto.Hash.sha256!(password <> salt <> papper) |> Base.encode16(case: :lower)
+    Hash.sha256!(password <> salt <> papper) |> Base.encode16(case: :lower)
   end
 
   @spec verify_password(String.t, String.t, String.t) :: boolean
@@ -14,7 +18,12 @@ defmodule MinecraftController.Auth do
   def gen_access_token(user) do
     user
     |> Map.fetch!(:id)
-    |> ExCrypto.Token.create!(get_secret_key())
+    |> Token.create!(get_secret_key())
+  end
+
+  @spec verify_access_token(String.t) :: {:ok, binary} | {:error, any}
+  def verify_access_token(token) do
+    Token.verify(token, get_secret_key(), @token_lifetime)
   end
 
   @spec get_secret_key() :: String.t
