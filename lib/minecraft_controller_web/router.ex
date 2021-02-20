@@ -31,6 +31,8 @@ defmodule MinecraftControllerWeb.Router do
 
   scope "/api", MinecraftControllerWeb do
     pipe_through :api
+  
+    get "/version", Version, :get
 
     post "/users/login", UserController.Login, :post
 
