@@ -70,6 +70,11 @@ config :minecraft_controller, MinecraftController.RCON.Client,
   port: 25575,
   pass: System.get_env("MINECRAFT_RCON_PASS")
 
+config :minecraft_controller, MinecraftController.Scheduler,
+  jobs: [
+    {"* * * * *", fn -> Mix.Tasks.CheckAndStopServer.run([]) end}
+  ]
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
