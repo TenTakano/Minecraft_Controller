@@ -47,7 +47,8 @@ defmodule MinecraftController.MixProject do
       {:ex_aws_ec2, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:meck, "~> 0.9.0", only: :test},
-      {:elixir_xml_to_map, "~> 2.0"}
+      {:elixir_xml_to_map, "~> 2.0"},
+      {:quantum, "~> 3.0"}
     ]
   end
 
