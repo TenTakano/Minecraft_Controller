@@ -72,7 +72,7 @@ config :minecraft_controller, MinecraftController.RCON.Client,
 
 config :minecraft_controller, MinecraftController.Scheduler,
   jobs: [
-    {"* * * * *", fn -> Mix.Tasks.CheckAndStopServer.run([]) end}
+    {"*/15 * * * *", fn -> Mix.Tasks.CheckAndStopServer.run([]) end}
   ]
 
 # Do not include metadata nor timestamps in development logs
