@@ -25,6 +25,7 @@ defmodule MinecraftControllerWeb do
       import MinecraftControllerWeb.Gettext
       alias MinecraftControllerWeb.Router.Helpers, as: Routes
       alias MinecraftControllerWeb.Error
+      alias MinecraftControllerWeb.Plug.VerifyApiToken
 
       @spec error_json(Conn.t, module) :: Conn.t
       defp error_json(conn, error_module) do
