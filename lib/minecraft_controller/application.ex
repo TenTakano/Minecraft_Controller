@@ -14,9 +14,10 @@ defmodule MinecraftController.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: MinecraftController.PubSub},
       # Start the Endpoint (http/https)
-      MinecraftControllerWeb.Endpoint
+      MinecraftControllerWeb.Endpoint,
       # Start a worker by calling: MinecraftController.Worker.start_link(arg)
       # {MinecraftController.Worker, arg}
+      MinecraftController.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
