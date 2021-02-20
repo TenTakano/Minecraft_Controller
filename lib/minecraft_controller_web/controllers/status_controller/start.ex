@@ -4,6 +4,8 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
   alias MinecraftController.EC2
   alias MinecraftController.Utils
 
+  plug VerifyApiToken
+
   @retry_interval_milliseconds 5000
   @retry_times_limit 10
 
