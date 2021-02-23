@@ -7,10 +7,10 @@ defmodule MinecraftController.EC2 do
     |> Keyword.fetch!(:target_instance_id)
   end
 
-  @spec get_instance(String.t) :: {:ok, map} | {:error, :instance_not_found}
-  def get_instance(instance_id) do
+  @spec get_instance() :: {:ok, map} | {:error, :instance_not_found}
+  def get_instance() do
     %{status_code: 200, body: body} =
-      EC2.describe_instances(filters: [{"instance-id", [instance_id]}])
+      EC2.describe_instances(filters: [{"instance-id", [target_instance_id()]}])
       |> ExAws.request!()
     XmlToMap.naive_map(body)
     |> get_in(["DescribeInstancesResponse", "reservationSet"])
