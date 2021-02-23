@@ -4,15 +4,12 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
   alias MinecraftController.EC2
   alias MinecraftController.Utils
 
-  plug VerifyApiToken
-
   @retry_interval_milliseconds 5000
   @retry_times_limit 10
 
   def get(conn, _) do
     with(
-      {:ok, instance_id} <- EC2.target_instance_id(),
-      :ok <- EC2.start_instance(instance_id),
+      :ok <- EC2.start_instance(),
       ip when ip != :timeout <- wait_for_instance_started()
     )
     do

@@ -13,6 +13,17 @@ defmodule MinecraftControllerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  if Mix.env() in [:dev, :prod] do
+    pipeline :api_with_auth do
+      plug :accepts, ["json"]
+      plug MinecraftControllerWeb.Plug.VerifyApiToken
+    end
+  else
+    pipeline :api_with_auth do
+      plug :accepts, ["json"]
+    end
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -31,10 +42,14 @@ defmodule MinecraftControllerWeb.Router do
 
   scope "/api", MinecraftControllerWeb do
     pipe_through :api
-  
-    get "/version", Version, :get
 
     post "/users/login", UserController.Login, :post
+
+    get "/version", Version, :get
+  end
+
+  scope "/api", MinecraftControllerWeb do
+    pipe_through :api_with_auth
 
     get "/ec2/start", EC2Controller.Start, :get
   end
