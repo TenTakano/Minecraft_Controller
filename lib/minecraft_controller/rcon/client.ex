@@ -6,7 +6,7 @@ defmodule MinecraftController.RCON.Client do
   @spec send_command(Packet.t) :: Packet.t
   def send_command(command) do
     [_host, port, password] = Enum.map([:host, :port, :pass], &Keyword.fetch!(@config, &1))
-    host = get_host_ip()
+    {:ok, %{ip: host}} = MinecraftController.EC2.get_instance()
     case :gen_tcp.connect(String.to_charlist(host), port, [:binary, active: false]) do
       {:ok, socket} ->
         response = send_with_auth(socket, command, password)
@@ -32,14 +32,5 @@ defmodule MinecraftController.RCON.Client do
     :ok = :gen_tcp.send(socket, packet)
     {:ok, res} = :gen_tcp.recv(socket, 0)
     Packet.decode(res)
-  end
-
-  alias MinecraftController.EC2
-
-  defp get_host_ip() do
-    EC2.target_instance_id()
-    |> elem(1)
-    |> EC2.get_instance_status()
-    |> Map.get(:ip)
   end
 end
