@@ -77,7 +77,7 @@ defmodule MinecraftController.EC2Test do
           </StartInstancesResponse>
         """
       :meck.expect(ExAws, :request!, fn _ -> %{status_code: 200, body: xml} end)
-      assert :ok = EC2.start_instance("instance_id")
+      assert :ok = EC2.start_instance()
     end
   end
 end
