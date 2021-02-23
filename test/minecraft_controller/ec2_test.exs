@@ -40,20 +40,20 @@ defmodule MinecraftController.EC2Test do
     [instance_id: instance_id, xml: xml, xml_without_instance: xml_without_instance]
   end
 
-  describe "get_instance_status/1" do
+  describe "get_instance/1" do
     test "returns instance status", %{instance_id: instance_id, xml: xml} do
       :meck.expect(ExAws, :request!, fn %{params: %{"Filter.1.Name" => filter_name, "Filter.1.Value.1" => filter_value}} ->
         send(self(), {filter_name, filter_value})
         %{status_code: 200, body: xml}
       end)
-      assert EC2.get_instance_status(instance_id) == %{status: "stopped", ip: nil}
+      assert EC2.get_instance(instance_id) == {:ok, %{status: "stopped", ip: nil}}
       assert_received {"instance-id", instance_id}
     end
 
     test "returns nil if target instance doesn't exist", ctx do
       %{instance_id: instance_id, xml_without_instance: xml_without_instance} = ctx
       :meck.expect(ExAws, :request!, fn _ -> %{status_code: 200, body: xml_without_instance} end)
-      assert EC2.get_instance_status(instance_id) |> is_nil()
+      assert EC2.get_instance(instance_id) == {:error, :instance_not_found}
     end
   end
 
