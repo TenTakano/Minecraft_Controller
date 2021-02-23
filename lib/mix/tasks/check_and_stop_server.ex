@@ -8,10 +8,9 @@ defmodule Mix.Tasks.CheckAndStopServer do
     with(
       {:ok, player_list} <- RCON.get_player_list(),
       true <- is_able_to_shutdown(player_list),
-      {:ok, _} <- RCON.stop_server(),
-      {:ok, instance_id} <- EC2.target_instance_id()
+      {:ok, _} <- RCON.stop_server()
     ) do
-      EC2.stop_instance(instance_id)
+      EC2.stop_instance()
     else
       false -> :ok
     end

@@ -18,6 +18,9 @@ config :minecraft_controller, MinecraftControllerWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :minecraft_controller, MinecraftController.EC2,
+  target_instance_id: "some_instance_id"
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 

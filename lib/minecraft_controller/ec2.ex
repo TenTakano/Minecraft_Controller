@@ -1,61 +1,46 @@
 defmodule MinecraftController.EC2 do
   alias ExAws.EC2
 
-  @tag_key "controller"
-  @tag_value "minecraft_controller"
-
-  @spec target_instance_id() :: {:ok, String.t} | {:error, :not_found}
+  @spec target_instance_id() :: String.t
   def target_instance_id() do
-    EC2.describe_instances(filters: [{"tag:#{@tag_key}", @tag_value}])
-    |> request!()
-    |> case do
-      %{"instanceId" => instance_id} -> {:ok, instance_id}
-      nil -> {:error, :not_found}
-    end
+    Application.get_env(:minecraft_controller, __MODULE__)
+    |> Keyword.fetch!(:target_instance_id)
   end
 
-  @spec get_instance_status(String.t) :: map | nil
-  def get_instance_status(instance_id) do
-    EC2.describe_instances(filters: [{"instance-id", [instance_id]}])
-    |> request!()
+  @spec get_instance() :: {:ok, map} | {:error, :instance_not_found}
+  def get_instance() do
+    %{status_code: 200, body: body} =
+      EC2.describe_instances(filters: [{"instance-id", [target_instance_id()]}])
+      |> ExAws.request!()
+    XmlToMap.naive_map(body)
+    |> get_in(["DescribeInstancesResponse", "reservationSet"])
     |> case do
-      nil -> nil
-      instance ->
-        %{
+      nil ->
+        {:error, :instance_not_found}
+      %{"item" => %{"instancesSet" => %{"item" => instance}}} ->
+        attributes = %{
           status: get_in(instance, ["instanceState", "name"]),
           ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"])
         }
+        {:ok, attributes}
     end
   end
 
-  @spec start_instance(String.t) :: :ok
-  def start_instance(instance_id) do
+  @spec start_instance() :: :ok
+  def start_instance() do
     %{status_code: 200} =
-      instance_id
-      |> List.wrap()
+      target_instance_id()
       |> EC2.start_instances()
       |> ExAws.request!()
     :ok
   end
 
-  @spec stop_instance(String.t) :: :ok
-  def stop_instance(instance_id) do
+  @spec stop_instance() :: :ok
+  def stop_instance() do
     %{status_code: 200} =
-      instance_id
-      |> List.wrap()
+      target_instance_id()
       |> EC2.stop_instances()
       |> ExAws.request!()
     :ok
-  end
-
-  @spec request!(map) :: map | nil
-  defp request!(op) do
-    %{status_code: 200, body: body} = ExAws.request!(op)
-    XmlToMap.naive_map(body)
-    |> get_in(["DescribeInstancesResponse", "reservationSet"])
-    |> case do
-      nil -> nil
-      item -> get_in(item, ["item", "instancesSet", "item"])
-    end
   end
 end
