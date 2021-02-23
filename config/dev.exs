@@ -75,6 +75,9 @@ config :minecraft_controller, MinecraftController.Scheduler,
     {"*/15 * * * *", fn -> Mix.Tasks.CheckAndStopServer.run([]) end}
   ]
 
+config :minecraft_controller, MinecraftController.EC2,
+  target_instance_id: "i-0cd304d29b63b6073"
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

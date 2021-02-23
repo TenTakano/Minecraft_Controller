@@ -1,17 +1,10 @@
 defmodule MinecraftController.EC2 do
   alias ExAws.EC2
 
-  @tag_key "controller"
-  @tag_value "minecraft_controller"
-
-  @spec target_instance_id() :: {:ok, String.t} | {:error, :not_found}
+  @spec target_instance_id() :: String.t
   def target_instance_id() do
-    EC2.describe_instances(filters: [{"tag:#{@tag_key}", @tag_value}])
-    |> request!()
-    |> case do
-      %{"instanceId" => instance_id} -> {:ok, instance_id}
-      nil -> {:error, :not_found}
-    end
+    Application.get_env(:minecraft_controller, __MODULE__)
+    |> Keyword.fetch!(:target_instance_id)
   end
 
   @spec get_instance_status(String.t) :: map | nil
