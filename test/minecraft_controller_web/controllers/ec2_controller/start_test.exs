@@ -14,11 +14,6 @@ defmodule MinecraftControllerWeb.EC2Controller.StartTest do
       get(conn, @path) |> assert_response(200, %{ip: "111.111.111.111"})
     end
 
-    test "returns 404 if target instance isn't setup", %{conn: conn} do
-      :meck.expect(EC2, :target_instance_id, fn -> {:error, :not_found} end)
-      get(conn, @path) |> assert_error(Error.InstanceNotFound)
-    end
-
     test "returns 409 if wait sequence timeout", %{conn: conn} do
       :meck.expect(EC2, :target_instance_id, fn -> {:ok, "started_instance_id"} end)
       :meck.expect(EC2, :start_instance, fn -> :ok end)
