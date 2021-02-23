@@ -11,7 +11,6 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
 
   def get(conn, _) do
     with(
-      {:ok, instance_id} <- EC2.target_instance_id(),
       :ok <- EC2.start_instance(),
       ip when ip != :timeout <- wait_for_instance_started()
     )
