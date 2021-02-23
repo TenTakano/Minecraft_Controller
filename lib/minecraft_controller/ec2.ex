@@ -26,21 +26,19 @@ defmodule MinecraftController.EC2 do
     end
   end
 
-  @spec start_instance(String.t) :: :ok
-  def start_instance(instance_id) do
+  @spec start_instance() :: :ok
+  def start_instance() do
     %{status_code: 200} =
-      instance_id
-      |> List.wrap()
+      target_instance_id()
       |> EC2.start_instances()
       |> ExAws.request!()
     :ok
   end
 
-  @spec stop_instance(String.t) :: :ok
-  def stop_instance(instance_id) do
+  @spec stop_instance() :: :ok
+  def stop_instance() do
     %{status_code: 200} =
-      instance_id
-      |> List.wrap()
+      target_instance_id()
       |> EC2.stop_instances()
       |> ExAws.request!()
     :ok
