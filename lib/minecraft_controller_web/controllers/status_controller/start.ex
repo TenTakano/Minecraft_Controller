@@ -26,7 +26,7 @@ defmodule MinecraftControllerWeb.EC2Controller.Start do
   @spec wait_for_instance_started(number) :: String.t | :timeout
   defp wait_for_instance_started(retry_times) do
     case {EC2.get_instance(), retry_times} do
-      {{:ok, %{status: "running", ip: ip}}, _} -> ip
+      {{:ok, %{status: "running", public_ip: ip}}, _} -> ip
       {_, retry_times} when retry_times < @retry_times_limit ->
         Utils.wait_milliseconds(@retry_interval_milliseconds)
         wait_for_instance_started(retry_times + 1)
