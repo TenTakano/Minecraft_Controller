@@ -31,6 +31,7 @@ defmodule MinecraftController.RCON.Client do
     Packet.decode(res)
   end
 
+  # TODO: revise to use private ip
   defp load_config() do
     %{public_ip: host} = MinecraftController.EC2.get_instance()
     Application.get_env(:minecraft_controller, __MODULE__)
