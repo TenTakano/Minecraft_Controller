@@ -14,6 +14,7 @@ defmodule MinecraftController.EC2 do
       |> ExAws.request!()
     XmlToMap.naive_map(body)
     |> get_in(["DescribeInstancesResponse", "reservationSet"])
+    |> case do
       nil ->
         {:error, :instance_not_found}
       %{"item" => %{"instancesSet" => %{"item" => instance}}} ->
