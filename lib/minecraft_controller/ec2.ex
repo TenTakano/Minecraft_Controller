@@ -13,14 +13,15 @@ defmodule MinecraftController.EC2 do
       EC2.describe_instances(filters: [{"instance-id", [target_instance_id()]}])
       |> ExAws.request!()
     XmlToMap.naive_map(body)
-    |> get_in(["DescribeInstancesResponse", "reservationSet"])
+    |> get_in(["DescribeInstancesResponse", "reservationSet"]) |> IO.inspect
     |> case do
       nil ->
         {:error, :instance_not_found}
       %{"item" => %{"instancesSet" => %{"item" => instance}}} ->
         attributes = %{
           status: get_in(instance, ["instanceState", "name"]),
-          public_ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"])
+          public_ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"]),
+          private_ip: instance["privateIpAddress"]
         }
         {:ok, attributes}
     end
