@@ -1,7 +1,7 @@
 defmodule MinecraftController.EC2Test do
   use MinecraftController.DataCase
 
-  describe "get_instance/1" do
+  describe "get_instance/0" do
     setup do
       xml = """
         <DescribeInstancesResponse>
@@ -24,6 +24,7 @@ defmodule MinecraftController.EC2Test do
                     <code>80</code>
                     <name>stopped</name>
                   </instanceState>
+                  <privateIpAddress>111.111.111.111</privateIpAddress>
                 </item>
               </instancesSet>
             </item>
@@ -45,7 +46,7 @@ defmodule MinecraftController.EC2Test do
         send(self(), {filter_name, filter_value})
         %{status_code: 200, body: xml}
       end)
-      assert EC2.get_instance() == {:ok, %{status: "stopped", ip: nil}}
+      assert EC2.get_instance() == {:ok, %{status: "stopped", public_ip: nil, private_ip: "111.111.111.111"}}
       assert_received {"instance-id", instance_id}
     end
 

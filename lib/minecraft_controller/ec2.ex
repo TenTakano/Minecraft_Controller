@@ -20,7 +20,8 @@ defmodule MinecraftController.EC2 do
       %{"item" => %{"instancesSet" => %{"item" => instance}}} ->
         attributes = %{
           status: get_in(instance, ["instanceState", "name"]),
-          ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"])
+          public_ip: get_in(instance, ["networkInterfaceSet", "item", "association", "publicIp"]),
+          private_ip: instance["privateIpAddress"]
         }
         {:ok, attributes}
     end

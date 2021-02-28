@@ -1,15 +1,12 @@
 defmodule MinecraftController.RCON.Client do
   alias MinecraftController.RCON.Packet
 
-  @config if Mix.env() == :test, do: [], else: Application.get_env(:minecraft_controller, __MODULE__)
-
   @spec send_command(Packet.t) :: Packet.t
   def send_command(command) do
-    [_host, port, password] = Enum.map([:host, :port, :pass], &Keyword.fetch!(@config, &1))
-    {:ok, %{ip: host}} = MinecraftController.EC2.get_instance()
-    case :gen_tcp.connect(String.to_charlist(host), port, [:binary, active: false]) do
+    config = load_config()
+    case :gen_tcp.connect(String.to_charlist(config.host), config.port, [:binary, active: false]) do
       {:ok, socket} ->
-        response = send_with_auth(socket, command, password)
+        response = send_with_auth(socket, command, config.password)
         :ok = :gen_tcp.close(socket)
         response
       error ->
@@ -32,5 +29,13 @@ defmodule MinecraftController.RCON.Client do
     :ok = :gen_tcp.send(socket, packet)
     {:ok, res} = :gen_tcp.recv(socket, 0)
     Packet.decode(res)
+  end
+
+  # TODO: revise to use private ip
+  defp load_config() do
+    %{public_ip: host} = MinecraftController.EC2.get_instance()
+    Application.get_env(:minecraft_controller, __MODULE__)
+    |> Map.new()
+    |> Map.put(:host, host)
   end
 end
