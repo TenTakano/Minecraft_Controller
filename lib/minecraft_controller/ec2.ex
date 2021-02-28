@@ -13,8 +13,7 @@ defmodule MinecraftController.EC2 do
       EC2.describe_instances(filters: [{"instance-id", [target_instance_id()]}])
       |> ExAws.request!()
     XmlToMap.naive_map(body)
-    |> get_in(["DescribeInstancesResponse", "reservationSet"]) |> IO.inspect
-    |> case do
+    |> get_in(["DescribeInstancesResponse", "reservationSet"])
       nil ->
         {:error, :instance_not_found}
       %{"item" => %{"instancesSet" => %{"item" => instance}}} ->
