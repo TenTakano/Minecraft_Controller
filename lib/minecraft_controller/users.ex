@@ -9,6 +9,7 @@ defmodule MinecraftController.Users do
 
   @table_name "Users"
 
+  # TODO: need to check conflict
   @spec create_user(map) :: :ok
   def create_user(%{id: id, password: password}) do
     {:ok, salt} = ExCrypto.generate_aes_key(:aes_128, :base64)
