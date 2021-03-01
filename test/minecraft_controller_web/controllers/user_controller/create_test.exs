@@ -18,7 +18,7 @@ defmodule MinecraftControllerWeb.UserController.CreateTest do
       [conn: conn_with_header, request: request]
     end
 
-    test "creates new user", %{conn: conn, request} do
+    test "creates new user", %{conn: conn, request: request} do
       :meck.expect(ExCrypto, :generate_aes_key, fn (_, _) -> {:ok, "somesalt"} end)
       post(conn, @path, request) |> assert_response(200, %{id: "someone"})
 
@@ -28,7 +28,7 @@ defmodule MinecraftControllerWeb.UserController.CreateTest do
         password_hash: Auth.hash_password("password", "somesalt")
       }
       users = Dynamo.query("Users", []) |> ExAws.request!()
-      assert user == expected_user
+      assert users == expected_user
     end
 
     test "returns BadRequest for invalid request", %{conn: conn, request: request} do
