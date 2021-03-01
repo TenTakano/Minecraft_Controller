@@ -52,6 +52,8 @@ defmodule MinecraftControllerWeb.Router do
     pipe_through :api_with_auth
 
     get "/ec2/start", EC2Controller.Start, :get
+
+    post "/users", UserController.Create, :post
   end
 
   scope "/", MinecraftControllerWeb do
