@@ -1,12 +1,20 @@
 defmodule MinecraftController.Auth do
   alias ExCrypto.{Hash, Token}
 
+  @stretch_number 3000
   @token_lifetime Application.get_env(:minecraft_controller, :auth) |> Keyword.get(:token_lifetime)
 
   @spec hash_password(String.t, String.t) :: String.t
   def hash_password(password, salt) do
     papper = get_secret_key()
-    Hash.sha256!(password <> salt <> papper) |> Base.encode16(case: :lower)
+    execute_hash(password <> salt <> papper, @stretch_number)
+  end
+
+  defp execute_hash(hash, 0), do: hash
+  defp execute_hash(plain, count) do
+    Hash.sha256!(plain)
+    |> Base.encode16(case: :lower)
+    |> execute_hash(count - 1)
   end
 
   @spec verify_password(String.t, String.t, String.t) :: boolean
