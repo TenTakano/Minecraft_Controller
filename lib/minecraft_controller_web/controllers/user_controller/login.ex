@@ -14,7 +14,7 @@ defmodule MinecraftControllerWeb.UserController.Login do
       json(conn, res_body)
     else
       :bad_request -> error_json(conn, Error.BadRequest)
-      false -> error_json(conn, Error.ResourceNotFound)
+      _ -> error_json(conn, Error.ResourceNotFound)
     end
   end
 
