@@ -1,7 +1,21 @@
 defmodule MinecraftController.UsersTest do
   use MinecraftController.DataCase
 
+  alias MinecraftController.Auth
   alias Users.User
+
+  @table_name "Users"
+
+  describe "create_user/1" do
+    test "creates a new user" do
+      expected = %User{id: "someone", salt: "somesalt", password_hash: "somehash"}
+      :meck.expect(ExCrypto, :generate_aes_key, fn (_, _) -> {:ok, expected.salt} end)
+      :meck.expect(Auth, :hash_password, fn (_, _) -> expected.password_hash end)
+
+      assert Users.create_user(%{id: expected.id, password: "password"}) == :ok
+      assert Dynamo.get_item(@table_name, %{id: expected.id}) |> ExAws.request!() |> Dynamo.decode_item(as: User) == expected
+    end
+  end
 
   describe "get_user/1" do
     test "gets user" do
@@ -10,7 +24,7 @@ defmodule MinecraftController.UsersTest do
         password_hash: "somehash",
         salt: "somesalt"
       }
-      Dynamo.put_item("Users", user) |> ExAws.request!()
+      Dynamo.put_item(@table_name, user) |> ExAws.request!()
 
       assert Users.get_user(user.id) == {:ok, user}
     end
