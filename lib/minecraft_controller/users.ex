@@ -9,17 +9,21 @@ defmodule MinecraftController.Users do
 
   @table_name "Users"
 
-  # TODO: need to check conflict
   @spec create_user(map) :: :ok
   def create_user(%{id: id, password: password}) do
-    {:ok, salt} = ExCrypto.generate_aes_key(:aes_128, :base64)
-    Dynamo.put_item(@table_name, %User{
-      id: id,
-      salt: salt,
-      password_hash: Auth.hash_password(password, salt)
-    })
-    |> ExAws.request!()
-    :ok
+    case get_user(id) do
+      {:error, :not_found} ->
+        {:ok, salt} = ExCrypto.generate_aes_key(:aes_128, :base64)
+        Dynamo.put_item(@table_name, %User{
+          id: id,
+          salt: salt,
+          password_hash: Auth.hash_password(password, salt)
+        })
+        |> ExAws.request!()
+        :ok
+      _ ->
+        {:error, :already_taken}
+    end
   end
 
   @spec get_user(String.t) :: {:ok, User.t} | {:error, :not_found}

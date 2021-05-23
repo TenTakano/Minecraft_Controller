@@ -15,6 +15,18 @@ defmodule MinecraftController.UsersTest do
       assert Users.create_user(%{id: expected.id, password: "password"}) == :ok
       assert Dynamo.get_item(@table_name, %{id: expected.id}) |> ExAws.request!() |> Dynamo.decode_item(as: User) == expected
     end
+
+    test "returns error if given user id is already taken" do
+      user_id = "someone"
+      user = %User{
+        id: user_id,
+        password_hash: "somehash",
+        salt: "somesalt"
+      }
+      Dynamo.put_item(@table_name, user) |> ExAws.request!()
+
+      assert Users.create_user(%{id: user_id, password: "password"}) == {:error, :already_taken}
+    end
   end
 
   describe "get_user/1" do
