@@ -10,7 +10,11 @@ defmodule MinecraftControllerWeb.EC2Controller.StartTest do
     test "execute start script", %{conn: conn} do
       :meck.expect(EC2, :target_instance_id, fn -> {:ok, "started_instance_id"} end)
       :meck.expect(EC2, :start_instance, fn -> :ok end)
-      :meck.expect(EC2, :get_instance, fn -> {:ok, %{status: "running", public_ip: "111.111.111.111"}} end)
+
+      :meck.expect(EC2, :get_instance, fn ->
+        {:ok, %{status: "running", public_ip: "111.111.111.111"}}
+      end)
+
       get(conn, @path) |> assert_response(200, %{ip: "111.111.111.111"})
     end
 

@@ -15,19 +15,21 @@ defmodule MinecraftController.RCON do
             {"members", members} -> {:members, String.split(members, " ")}
             {key, value} -> {String.to_atom(key), String.to_integer(value)}
           end)
+
         {:ok, res}
+
       error ->
         error
     end
   end
 
-  @spec stop_server() :: {:ok, Packet.t} | {:error, atom}
+  @spec stop_server() :: {:ok, Packet.t()} | {:error, atom}
   def stop_server() do
     gen_command("stop")
     |> Client.send_command()
   end
 
-  @spec gen_command(String.t) :: Packet.t
+  @spec gen_command(String.t()) :: Packet.t()
   defp gen_command(op) do
     Packet.encode(%{id: 2, type: :command, payload: op})
   end

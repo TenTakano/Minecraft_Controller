@@ -14,6 +14,6 @@ defmodule Mix.Tasks.CreateDb do
     Enum.each(@tables, fn {table_name, read_capacity, write_capacity} ->
       ExAws.Dynamo.create_table(table_name, :id, %{id: :string}, read_capacity, write_capacity)
       |> ExAws.request!()
-    end)    
+    end)
   end
 end

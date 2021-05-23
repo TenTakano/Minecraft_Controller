@@ -15,7 +15,8 @@ defmodule MinecraftControllerWeb.ConnCase do
       @endpoint MinecraftControllerWeb.Endpoint
 
       def assert_response(response, status, expected) do
-        string_key_expected = Enum.into(expected, %{}, fn {key, value} -> {to_string(key), value} end)
+        string_key_expected =
+          Enum.into(expected, %{}, fn {key, value} -> {to_string(key), value} end)
 
         assert response.status == status
         assert Jason.decode!(response.resp_body) == string_key_expected

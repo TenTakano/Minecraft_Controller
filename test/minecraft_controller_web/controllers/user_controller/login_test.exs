@@ -19,8 +19,9 @@ defmodule MinecraftControllerWeb.UserController.LoginTest do
         salt: "somesalt",
         password_hash: Auth.hash_password("password", "somesalt")
       }
+
       :meck.expect(Users, :get_user, fn _ -> {:ok, user} end)
-      :meck.expect(Token, :create!, fn (_, _) -> "sometoken" end)
+      :meck.expect(Token, :create!, fn _, _ -> "sometoken" end)
 
       req_body = %{id: "some_id", password: "password"}
       post(conn, @path, req_body) |> assert_response(200, %{token: "sometoken"})
