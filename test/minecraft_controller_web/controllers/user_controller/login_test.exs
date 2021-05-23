@@ -2,29 +2,30 @@ defmodule MinecraftControllerWeb.UserController.LoginTest do
   use MinecraftControllerWeb.ConnCase
 
   alias ExCrypto.Token
-  alias MinecraftController.Auth
   alias MinecraftController.Users
-  alias Users.User
 
   @path "/api/users/login"
 
   describe "post/2" do
     setup %{conn: conn} do
-      [conn: put_req_header(conn, "content-type", "application/json")]
+      login_info = %{id: "someone", password: "somenicepassword"}
+      Users.create_user(login_info)
+      [conn: put_req_header(conn, "content-type", "application/json"), login_info: login_info]
     end
 
-    test "generates access token from user attributes and returns it", %{conn: conn} do
-      user = %User{
-        id: "someone",
-        salt: "somesalt",
-        password_hash: Auth.hash_password("password", "somesalt")
-      }
+    test "generates access token from user attributes and returns it", %{conn: conn, login_info: login_info} do
+      expected_token = "sometoken"
+      :meck.expect(Token, :create!, fn _, _ -> expected_token end)
+      post(conn, @path, login_info) |> assert_response(200, %{token: expected_token})
+    end
 
-      :meck.expect(Users, :get_user, fn _ -> {:ok, user} end)
-      :meck.expect(Token, :create!, fn _, _ -> "sometoken" end)
-
-      req_body = %{id: "some_id", password: "password"}
-      post(conn, @path, req_body) |> assert_response(200, %{token: "sometoken"})
+    test "returns ResourceNotFound when login info doesn't match with any users", %{conn: conn, login_info: login_info} do
+      Enum.each([
+        Map.put(login_info, :id, "another"),
+        Map.put(login_info, :password, "invalid")
+      ], fn invalid_login_info ->
+        post(conn, @path, invalid_login_info) |> assert_error(Error.ResourceNotFound)
+      end)
     end
   end
 end

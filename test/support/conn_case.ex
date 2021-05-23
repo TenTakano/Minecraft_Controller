@@ -3,7 +3,8 @@ defmodule MinecraftControllerWeb.ConnCase do
 
   using do
     quote do
-      # Import conveniences for testing with connections
+      use MinecraftController.CommonCase
+
       import Plug.Conn
       import Phoenix.ConnTest
       import MinecraftControllerWeb.ConnCase
@@ -11,7 +12,6 @@ defmodule MinecraftControllerWeb.ConnCase do
       alias MinecraftControllerWeb.Error
       alias MinecraftControllerWeb.Router.Helpers, as: Routes
 
-      # The default endpoint for testing
       @endpoint MinecraftControllerWeb.Endpoint
 
       def assert_response(response, status, expected) do
@@ -36,7 +36,6 @@ defmodule MinecraftControllerWeb.ConnCase do
   end
 
   setup do
-    on_exit(&:meck.unload/0)
     [conn: Phoenix.ConnTest.build_conn()]
   end
 end
