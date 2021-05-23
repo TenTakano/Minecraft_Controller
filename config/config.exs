@@ -36,5 +36,4 @@ config :ex_aws,
   secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role],
   region: "ap-northeast-1"
 
-config :minecraft_controller, :auth,
-  token_lifetime: 21600
+config :minecraft_controller, :auth, token_lifetime: 21600

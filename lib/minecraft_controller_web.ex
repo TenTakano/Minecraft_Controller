@@ -27,9 +27,10 @@ defmodule MinecraftControllerWeb do
       alias MinecraftControllerWeb.Error
       alias MinecraftControllerWeb.Plug.VerifyApiToken
 
-      @spec error_json(Conn.t, module) :: Conn.t
+      @spec error_json(Conn.t(), module) :: Conn.t()
       defp error_json(conn, error_module) do
         error = error_module.new()
+
         conn
         |> put_status(error.status)
         |> json(Map.take(error, [:type, :message]))

@@ -2,7 +2,7 @@ defmodule MinecraftController.RCON.Packet do
   @enforce_keys [:id, :type]
   defstruct [:id, :type, :payload]
 
-  @type t :: %__MODULE__{id: integer, type: atom, payload: String.t}
+  @type t :: %__MODULE__{id: integer, type: atom, payload: String.t()}
 
   @terminate <<0, 0>>
   @payload_limit 4096
@@ -16,9 +16,9 @@ defmodule MinecraftController.RCON.Packet do
       {:ok, length} <- packet_length(packet.payload),
       header <-
         <<
-          length :: 32-signed-integer-little,
-          packet.id :: 32-signed-integer-little,
-          type_code :: 32-signed-integer-little
+          length::32-signed-integer-little,
+          packet.id::32-signed-integer-little,
+          type_code::32-signed-integer-little
         >>
     ) do
       header <> packet.payload <> @terminate
@@ -32,10 +32,10 @@ defmodule MinecraftController.RCON.Packet do
     with(
       {:ok, payload_part_size} <- payload_size(bytes),
       <<
-        length :: 32-signed-integer-little,
-        id :: 32-signed-integer-little,
-        type_code :: 32-signed-integer-little,
-        payload :: binary-size(payload_part_size)
+        length::32-signed-integer-little,
+        id::32-signed-integer-little,
+        type_code::32-signed-integer-little,
+        payload::binary-size(payload_part_size)
       >> <> @terminate <- bytes,
       true <- length == payload_part_size + @fixed_part_size,
       true <- length <= @payload_limit,
@@ -57,7 +57,7 @@ defmodule MinecraftController.RCON.Packet do
   defp code_to_type(0), do: {:ok, :command_response}
   defp code_to_type(_), do: :error
 
-  @spec packet_length(String.t) :: {:ok, non_neg_integer} | :error
+  @spec packet_length(String.t()) :: {:ok, non_neg_integer} | :error
   defp packet_length(payload) do
     case byte_size(payload) do
       length when length <= @payload_limit -> {:ok, length + @fixed_part_size}
@@ -68,6 +68,7 @@ defmodule MinecraftController.RCON.Packet do
   @spec payload_size(binary) :: {:ok, non_neg_integer} | :error
   defp payload_size(bytes) do
     total_size = byte_size(bytes) - @fixed_part_size - @length_part_size
+
     if total_size >= 0 do
       {:ok, total_size}
     else

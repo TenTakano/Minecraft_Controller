@@ -9,8 +9,7 @@ defmodule MinecraftControllerWeb.UserController.Login do
       {:ok, %{id: user_id, password: password}} <- validate_params(params),
       {:ok, user} <- Users.get_user(user_id),
       true <- Auth.verify_password(password, user.salt, user.password_hash)
-    )
-    do
+    ) do
       res_body = %{token: Auth.gen_access_token(user)}
       json(conn, res_body)
     else
@@ -21,7 +20,8 @@ defmodule MinecraftControllerWeb.UserController.Login do
 
   @spec validate_params(map) :: {:ok, map} | :bad_request
   defp validate_params(%{"id" => id, "password" => password}) do
-      {:ok, %{id: id, password: password}}
+    {:ok, %{id: id, password: password}}
   end
+
   defp validate_params(_), do: :bad_request
 end

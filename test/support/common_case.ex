@@ -3,6 +3,7 @@ defmodule MinecraftController.CommonCase do
 
   using opts do
     %Macro.Env{module: test_module} = __CALLER__
+
     target_module =
       test_module
       |> Atom.to_string()
