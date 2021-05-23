@@ -42,4 +42,12 @@ defmodule MinecraftControllerWeb.Error do
       message: "Something occurs on AWS."
     }
   end
+
+  defmodule DuplicateId do
+    use ErrorBase, %{
+      status: 409,
+      type: "DuplicateId",
+      message: "Given user ID is already taken."
+    }
+  end
 end
