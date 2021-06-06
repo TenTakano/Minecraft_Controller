@@ -1,9 +1,8 @@
 defmodule MinecraftControllerWeb.UserController.CreateTest do
   use MinecraftControllerWeb.ConnCase
 
-  alias ExAws.Dynamo
-  alias MinecraftController.Auth
-  alias MinecraftController.Users.User
+  alias MinecraftController.{Auth, Users}
+  alias Users.User
 
   @path "/api/users"
 
@@ -29,9 +28,8 @@ defmodule MinecraftControllerWeb.UserController.CreateTest do
         password_hash: Auth.hash_password("password", "somesalt")
       }
 
-      assert Dynamo.get_item("Users", %{id: expected_user.id})
-             |> ExAws.request!()
-             |> Dynamo.decode_item(as: User) == expected_user
+      assert {:ok, user} = Users.get_user(expected_user.id)
+      assert user == expected_user
     end
 
     test "returns BadRequest for invalid request", %{conn: conn, request: request} do
