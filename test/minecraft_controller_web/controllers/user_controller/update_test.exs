@@ -3,6 +3,7 @@ defmodule MinecraftControllerWeb.UserController.UpdateTest do
 
   alias MinecraftController.{Auth, Users}
   alias Users.User
+  alias MinecraftControllerWeb.error
 
   @path_base "/api/users"
 
@@ -44,6 +45,11 @@ defmodule MinecraftControllerWeb.UserController.UpdateTest do
 
       assert {:ok, user} = Users.get_user(user_base.id)
       assert user == expected_user
+    end
+
+    test "returns 404 for non-existent user", %{conn: conn} do
+      path = @path_base <> "/notfound"
+      put(conn, path, %{password: "pass"}) |> assert_error(Error.ResourceNotFound)
     end
   end
 end
