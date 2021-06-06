@@ -13,16 +13,16 @@ defmodule MinecraftControllerWeb.Plug.VerifyApiTokenTest do
 
     test "assigns valid api token", %{conn: conn_base, token: token} do
       conn = Conn.put_req_header(conn_base, "authorization", token)
-      assert %{assigns: %{user_id: "someone"}} = VerifyApiToken.call(conn, [])
+      assert %{assigns: %{user_id: "someone"}} = VerifyApiToken.validate_token(conn)
     end
 
     test "returns BadRequest if header doesn't have authorization header", %{conn: conn} do
-      assert %{status: 400} = VerifyApiToken.call(conn, [])
+      assert %{status: 400} = VerifyApiToken.validate_token(conn)
     end
 
     test "returns BadRequest for invalid api token", %{conn: conn_base} do
       conn = Conn.put_req_header(conn_base, "authorization", "invalidtoken")
-      assert %{status: 400} = VerifyApiToken.call(conn, [])
+      assert %{status: 400} = VerifyApiToken.validate_token(conn)
     end
   end
 end

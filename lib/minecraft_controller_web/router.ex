@@ -13,15 +13,9 @@ defmodule MinecraftControllerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  if Mix.env() in [:dev, :prod] do
-    pipeline :api_with_auth do
-      plug :accepts, ["json"]
-      plug MinecraftControllerWeb.Plug.VerifyApiToken
-    end
-  else
-    pipeline :api_with_auth do
-      plug :accepts, ["json"]
-    end
+  pipeline :api_with_auth do
+    plug :accepts, ["json"]
+    plug MinecraftControllerWeb.Plug.VerifyApiToken
   end
 
   # Enables LiveDashboard only for development
