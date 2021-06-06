@@ -3,7 +3,7 @@ defmodule MinecraftControllerWeb.UserController.UpdateTest do
 
   alias MinecraftController.{Auth, Users}
   alias Users.User
-  alias MinecraftControllerWeb.error
+  alias MinecraftControllerWeb.Error
 
   @path_base "/api/users"
 
