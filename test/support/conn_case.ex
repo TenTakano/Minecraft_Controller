@@ -3,6 +3,8 @@ defmodule MinecraftControllerWeb.ConnCase do
 
   using do
     quote do
+      use MinecraftController.CommonCase
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
@@ -36,7 +38,6 @@ defmodule MinecraftControllerWeb.ConnCase do
   end
 
   setup do
-    on_exit(&:meck.unload/0)
     [conn: Phoenix.ConnTest.build_conn()]
   end
 end

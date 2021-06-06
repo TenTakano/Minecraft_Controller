@@ -1,8 +1,6 @@
 defmodule MinecraftController.DataCase do
   use ExUnit.CaseTemplate
 
-  alias Mix.Tasks.{CreateDb, DropDb}
-
   using do
     quote do
       use MinecraftController.CommonCase
@@ -11,13 +9,5 @@ defmodule MinecraftController.DataCase do
 
       import MinecraftController.DataCase
     end
-  end
-
-  setup do
-    :ok = DropDb.drop_all_tables()
-    :ok = CreateDb.create_tables()
-
-    on_exit(&:meck.unload/0)
-    :ok
   end
 end

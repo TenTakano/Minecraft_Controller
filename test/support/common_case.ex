@@ -1,6 +1,8 @@
 defmodule MinecraftController.CommonCase do
   use ExUnit.CaseTemplate
 
+  alias Mix.Tasks.{CreateDb, DropDb}
+
   using opts do
     %Macro.Env{module: test_module} = __CALLER__
 
@@ -18,6 +20,9 @@ defmodule MinecraftController.CommonCase do
   end
 
   setup do
+    :ok = DropDb.drop_all_tables()
+    :ok = CreateDb.create_tables()
+
     on_exit(&:meck.unload/0)
     :ok
   end
