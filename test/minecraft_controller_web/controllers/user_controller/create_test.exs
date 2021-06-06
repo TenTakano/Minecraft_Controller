@@ -2,8 +2,8 @@ defmodule MinecraftControllerWeb.UserController.CreateTest do
   use MinecraftControllerWeb.ConnCase
 
   alias ExAws.Dynamo
-  alias MinecraftController.{Auth, Users}
-  alias Users.User
+  alias MinecraftController.Auth
+  alias MinecraftController.Users.User
 
   @path "/api/users"
 
