@@ -9,7 +9,7 @@ defmodule MinecraftController.Users do
 
   @table_name "Users"
 
-  @spec create_user(map) :: :ok
+  @spec create_user(map) :: :ok | {:error, :already_taken}
   def create_user(%{id: id, password: password}) do
     case get_user(id) do
       {:error, :not_found} ->
@@ -38,5 +38,20 @@ defmodule MinecraftController.Users do
       %{id: id} when is_nil(id) -> {:error, :not_found}
       user -> {:ok, user}
     end
+  end
+
+  # need to refactoring
+  @spec update_user(String.t(), map) :: :ok | {:error, :already_taken}
+  def update_user(user_id, %{password: password}) do
+    {:ok, salt} = ExCrypto.generate_aes_key(:aes_128, :base64)
+
+    Dynamo.put_item(@table_name, %User{
+      id: user_id,
+      salt: salt,
+      password_hash: Auth.hash_password(password, salt)
+    })
+    |> ExAws.request!()
+
+    :ok
   end
 end
