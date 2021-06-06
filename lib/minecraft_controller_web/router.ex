@@ -54,6 +54,7 @@ defmodule MinecraftControllerWeb.Router do
     get "/ec2/start", EC2Controller.Start, :get
 
     post "/users", UserController.Create, :post
+    put "/users/:user_id", UserController.Update, :put
   end
 
   scope "/", MinecraftControllerWeb do
