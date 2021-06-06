@@ -13,7 +13,7 @@ defmodule MinecraftControllerWeb.UserController.UpdateTest do
 
       user = %{
         id: "someone",
-        salt: "somasalt",
+        salt: "somesalt",
         password: "password"
       }
 
